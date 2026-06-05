@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-nav-container">
+        <div class="header">Task Management System</div>
+        <div class="nav">
+            <a href="index.html">Home</a>
+            <a href="#testimonial">About</a>
+            <a href="Main.html">Dashboard</a>
+            <a href="#footer">Contact Us</a>
+        </div>
+   </div>
+
+   <div class="container">
+    <h1>Student Dashboard</h1>
+    <h3 id="date"></h3>
+
+    <div class="task-input">
+        <label for="task" style="font-weight: bolder;">Task:</label><br>
+        <input type="text" id="taskInput" placeholder="Enter Your Task">
+        <button onclick="addTask()">Add Task</button>
+    </div>
+
+    <div class="filter-button">
+        <h3>Filter</h3>
+        <button onclick="showAll()">Show All</button>
+        <button onclick="showCompleted()">Show Completed</button>
+        <button onclick="showPending()">Show Pending</button>
+    </div>
+
+    <ul id="taskList"></ul>
+
+    <div class="counter">
+        Total tasks:
+        <span id="taskCount">0</span>
+    </div>
+   </div>
+</body>
+<script>
+    let taskInput = document.getElementById("taskInput");
+    let taskList = document.getElementById("taskList");
+    let taskCount = document.getElementById("taskCount");
+
+    let today = new Date();
+    document.getElementById("date").innerHTML = today.toDateString(); 
+
+    window.onload = function(){
+        let savedTasks = localStorage.getItem("tasks");
+
+        if (savedTasks){
+            taskList.innerHTML = savedTasks;
+            updateCount();
+        }
+    };
+
+    function addTask(){
+        if(taskInput.value == ""){
+            alert("Please Enter Task!!");
+            return;
+        }
+        let li = document.createElement("li");
+
+        li.innerHTML = `
+        <span>${taskInput.value}</span>
+        
+        <button onclick="completeTask(this)">
+            Complete
+            </button>
+
+            <button onclick="deleteTask(this)">
+                Delete
+                </button>
+        `;
+
+        taskList.appendChild(li);
+        savedTasks();
+        updateCount();
+        taskInput.value="";
+
+    }
+
+    function deleteTask(button){
+        button.parentElement.remove();
+        savedTasks();
+        updateCount();
+
+    }
+
+    function completeTask(button){
+        button.parentElement.classList.toggle("completed");
+        savedTasks();
+
+    }
+
+    function savedTasks(){
+        localStorage.setItem("tasks", taskList.innerHTML);
+    }
+
+    function updateCount(){
+        let total =
+        document.querySelectorAll
+        ("#taskList li").length;
+
+        taskCount.innerHTML = total;
+    }
+
+    function showAll(){
+
+        let tasks =
+        document.querySelectorAll("#taskList li");
+
+        tasks.forEach(task => {
+
+        task.style.display = "list-item";
+
+    });
+
+    }
+
+    function showCompleted(){
+
+        let tasks =
+        document.querySelectorAll("#taskList li");
+
+        tasks.forEach(task => {
+
+        if(task.classList.contains("completed")){
+
+            task.style.display = "list-item";
+
+        }
+
+        else{
+
+            task.style.display = "none";
+
+        }
+
+        });
+
+    }
+
+    function showPending(){
+
+        let tasks =
+        document.querySelectorAll("#taskList li");
+
+        tasks.forEach(task => {
+
+        if(!task.classList.contains("completed")){
+
+            task.style.display = "list-item";
+
+        }
+
+        else{
+
+            task.style.display = "none";
+
+        }
+
+        });
+
+    }
+
+    taskInput.addEventListener
+    ("keypress", function(event){
+
+        if(event.key === "Enter"){
+
+            addTask();
+
+        }
+
+    });
+
+
+</script>
+</html>
