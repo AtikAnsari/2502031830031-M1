@@ -18,17 +18,30 @@
    </div>
     <div class="container">
         <h2>Login</h2>
-        <form>
-            <label for="Username">Username:</label>
-            <input type="text" placeholder="Enter Username" required><br>
-            <label for="Password">Password</label>
-            <input type="password" placeholder="Password" required><br>
-            <button type="submit" on>Login</button>
-            <p>Haven't Signup? <a href="signup.html">Signup</a></p>
-        </form>
+      <form onsubmit="login(event)">
+    <label for="Username">Username:</label>
+    <input type="text" id="username" placeholder="Enter Username" required><br>
+
+    <label for="Password">Password</label>
+    <input type="password" id="password" placeholder="Password" required><br>
+
+    <button type="submit">Login</button>
+
+    <p>Haven't Signup? <a href="signup.html">Signup</a></p>
+</form>
     </div>
     </div>
     <div class="footer">&copy; 2025 Online Advertisement System. All rights reserved.</div>
+    <script>
+function login(event){
+    event.preventDefault();
+
+    alert("Login Successful!");
+
+    // Redirect to Dashboard
+    window.location.href = "Main.html";
+}
+</script>
 </body>
 
 

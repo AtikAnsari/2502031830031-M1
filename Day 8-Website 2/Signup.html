@@ -20,16 +20,16 @@
    <div class="container">
        
     <h2>Sign Up</h2>
-    <form id="RegForm">
+    <form id="RegForm" onsubmit="validate(event)">
         <label for="name">Name:</label>
-        <input type="text" id="name" placeholder="Enter Your Full Name" >
+        <input type="text" id="name" name="name" placeholder="Enter Your Full Name">
         <label for="email">Email:</label>
-        <input type="email" id="email" placeholder="Enter Your Email" >
+        <input type="email" id="email" name="email" placeholder="Enter Your Email">
         <label for="password">Password:</label>
-        <input type="password" id="password" placeholder="Enter Your Password" >
+        <input type="password" id="password" name="password" placeholder="Enter Your Password">
         <label for="number">Contact Number:</label>
-        <input type="number" id="number" placeholder="Enter Your Number">
-        <button type="submit" onclick="validate()">Sign Up</button>
+       <input type="number" id="number" name="number" placeholder="Enter Your Number">
+     <button type="submit">Sign Up</button>
         <p>Already Signup Go to Login? <a href="login.html">Login</a></p>
     </form> 
     <div class="footer">&copy; 2025 Online Advertisement System. All rights reserved.</div>
@@ -37,28 +37,44 @@
 </div>
 </body>
 <script>
- function validate(){
+function validate(event) {
+    event.preventDefault(); // Prevent form submission
+
     let form1 = document.getElementById("RegForm");
+
     let name = form1.name.value;
     let email = form1.email.value;
     let password = form1.password.value;
     let number = form1.number.value;
 
-    var regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g;
-    var regPhone=/^\d{10}$/;
+    var regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    var regPhone = /^\d{10}$/;
 
     if(name == ""){
         alert("Please Enter Your Name!!");
-    }else if(email == "" || !regEmail.test(email)){
-        alert("Please Enter a Valid Email Address!!");
-    }else if(password == ""){
-        alert("Please Enter Password!!")
-    }else if(password.length < 6){
-        alert("Please Enter Atleast 6 Character long")
-    }else if(number == "" || !regPhone.test(number)){
-        alert("Please Enter  a Valid Phone Number!!")
     }
+    else if(email == "" || !regEmail.test(email)){
+        alert("Please Enter a Valid Email Address!!");
+    }
+    else if(password == ""){
+        alert("Please Enter Password!!");
+    }
+    else if(password.length < 6){
+        alert("Please Enter Atleast 6 Characters!!");
+    }
+    else if(number == "" || !regPhone.test(number)){
+        alert("Please Enter a Valid Phone Number!!");
+    }
+    else{
+    // Save user data
+    localStorage.setItem("email", email);
+    localStorage.setItem("password", password);
 
- }
+    alert("Signup Successful!");
+
+    // Redirect to login page
+    window.location.href = "login.html";
+}
+}
 </script>
 </html>
